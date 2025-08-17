@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://unpkg.com/pizzip@3.1.4/dist/pizzip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.37.11/docxtemplater.js"></script>
+    <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="container">
+                <div class="header-content">
+                    <h1>Professional Resume Builder</h1>
+                    <div class="header-actions">
+                        <button class="btn btn--outline" id="loadSampleBtn">Load Sample Data</button>
+                        <button class="btn btn--secondary" id="clearDataBtn">Clear All</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Template Selector -->
+        <section class="template-selector">
+            <div class="container">
+                <h2>Choose Your Template</h2>
+                <div class="template-grid">
+                    <div class="template-card active" data-template="classic">
+                        <div class="template-preview classic-preview"></div>
+                        <h3>Classic Professional</h3>
+                        <p>Clean, traditional format perfect for corporate roles</p>
+                    </div>
+                    <div class="template-card" data-template="modern">
+                        <div class="template-preview modern-preview"></div>
+                        <h3>Modern Creative</h3>
+                        <p>Contemporary design with color accents</p>
+                    </div>
+                    <div class="template-card" data-template="minimal">
+                        <div class="template-preview minimal-preview"></div>
+                        <h3>Minimal Elegant</h3>
+                        <p>Clean, minimalist design for any industry</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="content-grid">
+                    <!-- Form Panel -->
+                    <div class="form-panel">
+                        <div class="form-container">
+                            <form id="resumeForm">
+                                <!-- Personal Information -->
+                                <section class="form-section">
+                                    <h3>Personal Information</h3>
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">Full Name *</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label" for="email">Email *</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="phone">Phone *</label>
+                                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="address">Address</label>
+                                        <input type="text" class="form-control" id="address" name="address">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label" for="linkedin">LinkedIn</label>
+                                            <input type="url" class="form-control" id="linkedin" name="linkedin">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="website">Website</label>
+                                            <input type="url" class="form-control" id="website" name="website">
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- Professional Summary -->
+                                <section class="form-section">
+                                    <h3>Professional Summary</h3>
+                                    <div class="form-group">
+                                        <label class="form-label" for="summary">Summary</label>
+                                        <textarea class="form-control" id="summary" name="summary" rows="4" placeholder="Brief description of your professional background and career objectives..."></textarea>
+                                    </div>
+                                </section>
+
+                                <!-- Work Experience -->
+                                <section class="form-section">
+                                    <div class="section-header">
+                                        <h3>Work Experience</h3>
+                                        <button type="button" class="btn btn--secondary btn--sm" id="addExperienceBtn">Add Experience</button>
+                                    </div>
+                                    <div id="experienceContainer">
+                                        <!-- Experience entries will be dynamically added -->
+                                    </div>
+                                </section>
+
+                                <!-- Education -->
+                                <section class="form-section">
+                                    <div class="section-header">
+                                        <h3>Education</h3>
+                                        <button type="button" class="btn btn--secondary btn--sm" id="addEducationBtn">Add Education</button>
+                                    </div>
+                                    <div id="educationContainer">
+                                        <!-- Education entries will be dynamically added -->
+                                    </div>
+                                </section>
+
+                                <!-- Skills -->
+                                <section class="form-section">
+                                    <h3>Skills</h3>
+                                    <div class="form-group">
+                                        <label class="form-label" for="skillInput">Add Skills</label>
+                                        <input type="text" class="form-control" id="skillInput" placeholder="Type a skill and press Enter">
+                                        <div class="skills-container" id="skillsContainer">
+                                            <!-- Skills tags will be dynamically added -->
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- Projects -->
+                                <section class="form-section">
+                                    <div class="section-header">
+                                        <h3>Projects</h3>
+                                        <button type="button" class="btn btn--secondary btn--sm" id="addProjectBtn">Add Project</button>
+                                    </div>
+                                    <div id="projectsContainer">
+                                        <!-- Project entries will be dynamically added -->
+                                    </div>
+                                </section>
+
+                                <!-- Certifications -->
+                                <section class="form-section">
+                                    <div class="section-header">
+                                        <h3>Certifications</h3>
+                                        <button type="button" class="btn btn--secondary btn--sm" id="addCertificationBtn">Add Certification</button>
+                                    </div>
+                                    <div id="certificationsContainer">
+                                        <!-- Certification entries will be dynamically added -->
+                                    </div>
+                                </section>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Preview Panel -->
+                    <div class="preview-panel">
+                        <div class="preview-header">
+                            <h3>Live Preview</h3>
+                            <div class="preview-actions">
+                                <button class="btn btn--sm btn--outline" id="printBtn">Print</button>
+                                <button class="btn btn--sm btn--secondary" id="downloadPdfBtn">Download PDF</button>
+                                <button class="btn btn--sm btn--primary" id="downloadWordBtn">Download Word</button>
+                            </div>
+                        </div>
+                        <div class="preview-container">
+                            <div id="resumePreview" class="resume-preview classic-template">
+                                <!-- Resume content will be dynamically generated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Notifications -->
+        <div id="notifications" class="notifications-container"></div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p>Generating your resume...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
